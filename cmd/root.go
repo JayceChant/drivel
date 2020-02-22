@@ -1,11 +1,12 @@
 package cmd
 
 import (
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 
+	"github.com/JayceChant/drivel/pkg/confuse"
 	"github.com/JayceChant/drivel/pkg/martian"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
@@ -13,41 +14,45 @@ import (
 )
 
 var (
-	cfgFile    string
-	overwrite  bool
+	cfgFile string
+	// confuse bool
+	// seperator string
+	filePath   string
 	useMartian bool
+	overwrite  bool
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "drivel",
+	Use:   "drivel [text]",
 	Short: "A brief description of your application",
 	Long: `A longer description that spans multiple lines and likely contains
 examples and usage of using your application. `,
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) != 1 {
-			return errors.New("file path is not given")
-		}
-		return nil
-	},
 	Run: func(cmd *cobra.Command, args []string) {
-		b, err := ioutil.ReadFile(args[0])
-		if err != nil {
-			fmt.Println(err)
-			return
+		var text string
+		if filePath != "" {
+			b, err := ioutil.ReadFile(filePath)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			text = string(b)
+		} else {
+			text = strings.Join(args, "")
 		}
 
-		text := string(b)
+		text = confuse.Trans(text, 3)
+
 		if useMartian {
 			text = martian.Trans(text)
 		}
 
-		if overwrite {
-			ioutil.WriteFile(args[0], []byte(text), 0666)
+		if overwrite && filePath != "" {
+			ioutil.WriteFile(filePath, []byte(text), 0666)
 			return
 		}
 
-		fmt.Print(text)
+		fmt.Println(text)
 	},
 }
 
@@ -62,8 +67,9 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
-	rootCmd.Flags().BoolVarP(&overwrite, "overwrite", "w", false, "overwrite result to file instead of printing")
+	rootCmd.Flags().StringVarP(&filePath, "file", "f", "", "read input from file given")
 	rootCmd.Flags().BoolVarP(&useMartian, "martian", "m", false, "enable martian mode")
+	rootCmd.Flags().BoolVarP(&overwrite, "overwrite", "w", false, "overwrite result to file instead of printing")
 }
 
 // initConfig reads in config file and ENV variables if set.
