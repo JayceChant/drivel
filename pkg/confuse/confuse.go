@@ -1,6 +1,7 @@
 package confuse
 
 import (
+	"math"
 	"math/rand"
 	"strings"
 
@@ -8,7 +9,9 @@ import (
 
 )
 
-// Trans make the words in (Chinese) text confusing by shuffle character order
+// Trans make the words in (Chinese) text confusing by shuffling character order.
+// n is the minimal length of the words to be processed,
+// which means, words that length < n will be skipped.
 func Trans(text string, n int) string {
 	if n < 2 {
 		n = 2
@@ -45,19 +48,14 @@ func shuffle(text string, n int) string {
 }
 
 func shuffleImpl(chars []rune, l int) []rune {
-	act := l / 4 // TODO: chose a better swap times
+	act := int(math.Sqrt(float64(l - 1))) // swap_times = sqrt(len - 1)
 	if act < 1 {
 		act = 1
 	}
+	// swap adjacent characters randomly
 	for i := 0; i < act; i++ {
-		var j int
-		for {
-			j = rand.Intn(l)
-			if i != j {
-				break
-			}
-		}
-		chars[i], chars[j] = chars[j], chars[i]
+		j := rand.Intn(l - 1)
+		chars[j], chars[j+1] = chars[j+1], chars[j]
 	}
 	return chars
 }

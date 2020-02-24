@@ -69,7 +69,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.Flags().StringVarP(&filePath, "file", "f", "", "read input from file given")
 	rootCmd.Flags().BoolVarP(&useMartian, "martian", "m", false, "enable martian mode")
-	rootCmd.Flags().BoolVarP(&overwrite, "overwrite", "w", false, "overwrite result to file instead of printing")
+	rootCmd.Flags().BoolVarP(&overwrite, "overwrite", "o", false, "overwrite result to file instead of printing")
 }
 
 // initConfig reads in config file and ENV variables if set.
