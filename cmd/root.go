@@ -80,8 +80,8 @@ func run(cmd *cobra.Command, args []string) {
 	if filePath != "" {
 		b, err := ioutil.ReadFile(filePath)
 		if err != nil {
-			fmt.Println(err)
-			return
+			cmd.Println(err)
+			os.Exit(1)
 		}
 		text = string(b)
 	} else {
@@ -95,5 +95,5 @@ func run(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	fmt.Println(text)
+	cmd.Println(text)
 }
