@@ -4,6 +4,7 @@ import (
 	"math"
 	"math/rand"
 	"strings"
+	"time"
 
 	"github.com/JayceChant/drivel/pkg/fenci"
 
@@ -44,6 +45,7 @@ func messup(chars []rune, l int) []rune {
 		act = 1
 	}
 	// swap adjacent characters randomly
+	rand.Seed(time.Now().Unix())
 	for i := 0; i < act; i++ {
 		j := rand.Intn(l - 1)
 		chars[j], chars[j+1] = chars[j+1], chars[j]
