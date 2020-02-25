@@ -27,7 +27,8 @@ var rootCmd = &cobra.Command{
 	Short: "A brief description of your application",
 	Long: `A longer description that spans multiple lines and likely contains
 examples and usage of using your application. `,
-	Run: run,
+	Args: cobra.MaximumNArgs(1),
+	Run:  run,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
