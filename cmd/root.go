@@ -13,12 +13,12 @@ import (
 )
 
 var (
-	cfgFile string
-	// confuse bool
-	marker     string
-	filePath   string
-	useMartian bool
-	overwrite  bool
+	cfgFile     string
+	marker      string
+	filePath    string
+	wordSegment bool
+	useMartian  bool
+	overwrite   bool
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -44,7 +44,8 @@ func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.Flags().StringVarP(&marker, "marker", "k", "@", "set target sentence marker")
 	rootCmd.Flags().StringVarP(&filePath, "file", "f", "", "read input from file given")
-	rootCmd.Flags().BoolVarP(&useMartian, "martian", "m", false, "enable martian mode")
+	rootCmd.Flags().BoolVarP(&wordSegment, "word", "w", false, "enable word segmentation mode, which won't swap characters btween words")
+	rootCmd.Flags().BoolVarP(&useMartian, "martian", "m", false, "enable martian(huoxingwen) mode")
 	rootCmd.Flags().BoolVarP(&overwrite, "overwrite", "o", false, "overwrite result to file instead of printing; will be ignored if --file not specified")
 }
 
@@ -87,7 +88,7 @@ func run(cmd *cobra.Command, args []string) {
 		text = strings.Join(args, "")
 	}
 
-	text = confuse.Trans(text, marker, 2, useMartian)
+	text = confuse.Trans(text, marker, wordSegment, useMartian)
 
 	if overwrite && filePath != "" {
 		ioutil.WriteFile(filePath, []byte(text), 0666)

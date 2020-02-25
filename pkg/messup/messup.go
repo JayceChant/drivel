@@ -3,16 +3,29 @@ package messup
 import (
 	"math"
 	"math/rand"
+	"strings"
+
+	"github.com/JayceChant/drivel/pkg/fenci"
 
 )
 
-// Trans ...
-func Trans(text string, n int) string {
+// Trans messup the character order.
+// If wordSegment is true, the character swap won't occur between words.
+func Trans(text string, wordSegment bool) string {
+	if wordSegment {
+		words := fenci.Split(text)
+		for i := range words {
+			words[i] = transImpl(words[i])
+		}
+		return strings.Join(words, "")
+	}
+
+	return transImpl(text)
+}
+
+func transImpl(text string) string {
 	chars := []rune(text)
 	l := len(chars)
-	if l < n {
-		return text
-	}
 
 	var shuffled string
 	for {
