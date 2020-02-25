@@ -24,9 +24,9 @@ var (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "drivel [text]",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. `,
+	Short: "A CLI tool that make your article like drivel",
+	Long: `A tool that make your article confusing.
+try 'drivel -f your_article.txt'`,
 	Args: cobra.MaximumNArgs(1),
 	Run:  run,
 }
