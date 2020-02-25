@@ -44,7 +44,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.Flags().StringVarP(&marker, "marker", "k", "@", "set target sentence marker")
 	rootCmd.Flags().StringVarP(&filePath, "file", "f", "", "read input from file given")
-	rootCmd.Flags().BoolVarP(&wordSegment, "word", "w", false, "enable word segmentation mode, which won't swap characters btween words")
+	rootCmd.Flags().BoolVarP(&wordSegment, "word", "w", false, "enable word segmentation mode for Chinese, which won't swap characters btween words")
 	rootCmd.Flags().BoolVarP(&useMartian, "martian", "m", false, "enable martian(huoxingwen) mode")
 	rootCmd.Flags().BoolVarP(&overwrite, "overwrite", "o", false, "overwrite result to file instead of printing; will be ignored if --file not specified")
 }
