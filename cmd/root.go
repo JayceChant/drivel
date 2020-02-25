@@ -88,7 +88,11 @@ func run(cmd *cobra.Command, args []string) {
 		text = strings.Join(args, "")
 	}
 
-	text = confuse.Trans(text, marker, wordSegment, useMartian)
+	text, err := confuse.Trans(text, marker, wordSegment, useMartian)
+	if err != nil {
+		cmd.Println("Error:", err)
+		os.Exit(1)
+	}
 
 	if overwrite && filePath != "" {
 		ioutil.WriteFile(filePath, []byte(text), 0666)
