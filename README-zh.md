@@ -144,3 +144,11 @@ drivel -wmo -k=$ -f=../article.txt
 
 
 更多的信息，请直接执行 `drivel help` 查看。
+
+
+
+## 贡献
+
+任何反馈和建议，请到[这里](https://github.com/JayceChant/drivel/issues)提出。
+
+如果这个小玩意对你来说有一点微末的用处，请不要吝惜你的 star。也欢迎开发者的 PR。
