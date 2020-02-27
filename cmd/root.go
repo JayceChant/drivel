@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"strings"
 
 	"github.com/JayceChant/drivel/pkg/confuse"
 	homedir "github.com/mitchellh/go-homedir"
@@ -84,8 +83,12 @@ func run(cmd *cobra.Command, args []string) {
 			os.Exit(1)
 		}
 		text = string(b)
+	} else if len(args) == 1 {
+		text = args[0]
 	} else {
-		text = strings.Join(args, "")
+		cmd.Println("Error: neither text nor filepath is given")
+		cmd.Printf("Run '%v --help' for usage.\n", cmd.CommandPath())
+		os.Exit(1)
 	}
 
 	text, err := confuse.Trans(text, marker, wordSegment, useMartian)
